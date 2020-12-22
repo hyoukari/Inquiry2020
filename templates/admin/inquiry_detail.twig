@@ -1,0 +1,32 @@
+{# inquiry_detail.twig #}
+{% extends "admin/layout.twig" %}
+
+{% block title %}
+	お問い合わせ詳細
+{% endblock %}
+
+{% block contents %}
+	<h2>お問い合わせ詳細</h2>
+	お名前：{{ detail.name }}<br>
+	emailアドレス：{{ detail.email }}<br>
+	問い合わせ内容：<br>
+	<pre>{{ detail.body }}</pre>
+	<br>
+
+	{% if detail.reply_at !=null %}
+		返信日時：{{ detail.reply_at }}<br>
+		返信担当者：{{ detail.reply_charge }}<br>
+		返信内容：<br>
+		{{ detail.reply_subject }}<br>
+		<pre>{{ detail.reply_body }}</pre>
+		※返信しました。（返信したらだす）<br>
+	{% else %}
+		<form action="./inquiry_detail_send.php" method="post">
+			<input type="hidden" name="inqury_id" value="{{ detail.inquiry_id }}">
+			subject（必須）：<input type="reply_charge"><br>
+			本文（必須）：<textarea name="reply_body" id="" cols="50" rows="5"></textarea><br>
+			<br>
+			<button type="submit">返信する</button>
+		</form>
+	{% endif %}
+{% endblock %}

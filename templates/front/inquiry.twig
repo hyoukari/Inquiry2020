@@ -1,0 +1,24 @@
+{# inquiry.twig #}
+<!DOCTYPE html>
+<html lang="ja">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>問い合わせ</title>
+	</head>
+
+	<body>
+		<div class="memo">
+			※frontの問い合わせform<br>
+		</div>
+		<h1>お問い合わせ</h1>
+		<form action="./inquiry_confirm.php" method="POST">
+			お名前：<input type="text" name="name"><br>
+			emailアドレス（必須）：<input type="text" name="email"><br>
+			問い合わせ内容（必須）：<textarea name="body" id="" cols="50" rows="5"></textarea><br>
+			<button type="submit">問い合わせる</button>
+		</form>
+	</body>
+
+</html>
