@@ -39,20 +39,23 @@ $sort = strval($_GET["sort"] ?? "");
 
 // ページング
 $page = intval($_GET["page"] ?? 0);
-var_dump($page);
+// var_dump($page);
 
 // 問い合わせの一覧を取得
 $ret = InquiryModel::getList($find_items, $sort, $page);
 //
 $context = [
+    "page" => $page,
+    "sort" => $sort,
     "find_items" => $find_items,
     "find_param_string" => implode("&", $find_params),
     "inquiry_list" => $ret["data"],
     "count" => $ret["count"],
-    "max_page" => ceil($ret["count"] / 20) - 1,     // xxx 20はmagic number
+    "max_page" => $ret["max_page"],
 ];
 // var_dump($context);
 // var_dump($context["find_param_string"]);
+// var_dump($context["max_page"]);
 
 // 出力用の設定
 $template_file_name = "admin/admin_top.twig";

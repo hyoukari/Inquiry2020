@@ -11,6 +11,9 @@ class InquiryModel extends Model
     // 一覧の取得
     public static function getList(array $find_items, string $sort, int $page)
     {
+        // xxx あとで可変になる可能性を考慮
+        $per_page = 20;
+
         //
         $dbh = DbHandle::get();
         // var_dump($find_items);
@@ -98,7 +101,7 @@ class InquiryModel extends Model
         ];
         $sort_e = $sort_white_list[$sort] ?? "inquiry_id DESC";
         //
-        $sql_list = "SELECT * " . $sql . " ORDER BY {$sort_e} LIMIT 20 OFFSET :offset;";
+        $sql_list = "SELECT * " . $sql . " ORDER BY {$sort_e} LIMIT :limit OFFSET :offset;";
         $pre = $dbh->prepare($sql_list);
         // var_dump($sql_list);
 
@@ -108,7 +111,8 @@ class InquiryModel extends Model
             $pre->bindValue($k, $v);
         }
         // offsetのバインド
-        $pre->bindValue(":offset", 20 * $page);
+        $pre->bindValue(":limit", $per_page, \PDO::PARAM_INT);
+        $pre->bindValue(":offset", $per_page * $page, \PDO::PARAM_INT);
 
         // SQLの実行
         $r = $pre->execute();
@@ -118,6 +122,7 @@ class InquiryModel extends Model
         $ret = [
             "data" => $pre->fetchAll(\PDO::FETCH_ASSOC),
             "count" => $count,
+            "max_page" => ceil($count / $per_page) - 1,
         ];
 
         return $ret;

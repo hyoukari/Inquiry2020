@@ -16,6 +16,20 @@
 		<button type="submit">検索する</button>
 	</form>
 	<hr>
+	<br>
+	件数：{{ count }}件<br>
+	Page：{% set print_page = page + 1 %}{{ print_page }}ページ目<br>
+	{# sort:{{ sort }}<br> max_page:{{ max_page }}<br> #}
+	{% for i in range(0, max_page) %}
+		{% set ii = i + 1 %}
+		{% if page == i %}
+			[{{ ii }}]
+		{% else %}
+			<a href="./admin_top.php?page={{ i }}&sort={{ sort|url_encode }}&{{ find_param_string|raw }}">{{ ii }}</a>
+		{% endif %}
+	{% endfor %}
+	<br>
+
 	<table border="1">
 		<thead>
 			<tr>
